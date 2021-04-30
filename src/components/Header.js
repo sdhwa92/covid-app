@@ -1,14 +1,21 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory, useParams } from 'react-router';
 
 const Header = () => {
+  const { country } = useParams();
   const [countryData, setCountryData] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState("AU");
-
+  const [selectedCountry, setSelectedCountry] = useState(country);
+  const history = useHistory();
+  
   useEffect( async () => {
-    apiCall();
+    getCountriesApiCall();
   }, []);
 
-  const apiCall = () => {
+  useEffect(() => {
+    history.push(`/summary/${selectedCountry}`);
+  }, [selectedCountry]);
+
+  const getCountriesApiCall = () => {
     fetch("https://api.covid19api.com/countries")
     .then((res) => {
       return res.json();
@@ -18,7 +25,7 @@ const Header = () => {
       const orderedData = data.sort((a, b) => a.Country > b.Country ? 1 : (b.Country > a.Country ? -1 : 0));
       setCountryData(orderedData);
     })
-  };
+  }; 
 
   const changeCountry = (e) => {
     // console.log(e.target.value);
