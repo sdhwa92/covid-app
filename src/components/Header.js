@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory, useParams } from 'react-router';
 
-const Header = () => {
-  const { country } = useParams();
+const Header = (props) => {
   const [countryData, setCountryData] = useState([]);
-  const [selectedCountry, setSelectedCountry] = useState(country);
-  const history = useHistory();
   
   useEffect( async () => {
     getCountriesApiCall();
   }, []);
-
-  useEffect(() => {
-    history.push(`/summary/${selectedCountry}`);
-  }, [selectedCountry]);
 
   const getCountriesApiCall = () => {
     fetch("https://api.covid19api.com/countries")
@@ -29,13 +21,13 @@ const Header = () => {
 
   const changeCountry = (e) => {
     // console.log(e.target.value);
-    setSelectedCountry(e.target.value);
+    props.onSelectCountry(e.target.value);
   }
 
   return (
     <header className="header">
       <h1>COVID-19</h1>
-      <select value={selectedCountry} onChange={changeCountry}>
+      <select value={props.selectedCountry} onChange={changeCountry}>
         {countryData.map(item => (
           <option key={item.ISO2} value={item.ISO2}>{item.Country}</option>
         ))}

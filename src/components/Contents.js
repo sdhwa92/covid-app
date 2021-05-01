@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Bar, Doughnut, Line } from "react-chartjs-2";
 import { useState, useEffect } from 'react';
 
-const Contents = () => {
+const Contents = (props) => {
 
   const monthWords = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -13,7 +13,7 @@ const Contents = () => {
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const covidData = await axios.get("https://api.covid19api.com/total/dayone/country/au");
+      const covidData = await axios.get(`https://api.covid19api.com/total/dayone/country/${props.selectedCountry}`);
       // console.log(res);
       filterData(covidData.data);
     }
@@ -84,14 +84,14 @@ const Contents = () => {
             backgroundColor: ["#ff3d67", "#059bff", "#ffc233"],
             borderColor: ["#ff3d67", "#059bff", "#ffc233"],
             fill: false,
-            data: [lastData.confirmed, lastData.recovered, lastData.deaths]
+            data: [lastData?.confirmed, lastData?.recovered, lastData?.deaths]
           }
         ]
       });
     }
 
     fetchEvent();
-  }, []);
+  }, [props.selectedCountry]);
 
   return (
     <section className="section">
