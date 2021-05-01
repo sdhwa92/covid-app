@@ -1,0 +1,13 @@
+@import '../App.scss';
+
+.modal {
+  .panel {
+    .panel-block {
+      &.is-active {
+        color: $white;
+        font-weight: 600;
+        background-color: $turquoise;
+      }
+    }
+  }
+}

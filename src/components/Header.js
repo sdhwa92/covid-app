@@ -1,7 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import '../styles/Header.scss';
+import Modal from './Modal';
 
 const Header = (props) => {
   const [countryData, setCountryData] = useState([]);
+  const [isModal, setIsModal] = useState(false);
   
   useEffect( async () => {
     getCountriesApiCall();
@@ -19,19 +22,34 @@ const Header = (props) => {
     })
   }; 
 
-  const changeCountry = (e) => {
-    // console.log(e.target.value);
-    props.onSelectCountry(e.target.value);
-  }
+  // @TODO: Context를 사용하여 flag 불러오기
 
   return (
     <header className="header">
-      <h1>COVID-19</h1>
-      <select value={props.selectedCountry} onChange={changeCountry}>
-        {countryData.map(item => (
-          <option key={item.ISO2} value={item.ISO2}>{item.Country}</option>
-        ))}
-      </select>
+      <nav className="navbar is-light" role="navigation" aria-label="main navigation">
+        <div className="navbar-brand">
+          <h1 className="navbar-item">
+            COVID-19 STATUS
+          </h1>
+        </div>
+
+        <div className="navbar-end">
+          <div className="navbar-item">
+            <div className="buttons">
+              <a className="button is-primary" onClick={() => setIsModal(true)}>
+                <strong>Choose Country</strong>
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <Modal 
+        isModal={isModal} 
+        onToggleModal={(isModal) => {setIsModal(isModal)}}
+        countryOptions={countryData} 
+        selectedCountry={props.selectedCountry} 
+        onSelectCountry={props.onSelectCountry} />
     </header>
   )
 }

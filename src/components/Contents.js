@@ -13,7 +13,7 @@ const Contents = (props) => {
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const covidData = await axios.get(`https://api.covid19api.com/total/dayone/country/${props.selectedCountry}`);
+      const covidData = await axios.get(`https://api.covid19api.com/total/dayone/country/${props.selectedCountry.ISO2}`);
       // console.log(res);
       filterData(covidData.data);
     }
@@ -95,10 +95,11 @@ const Contents = (props) => {
 
   return (
     <section className="section">
-      <h1 className="title is-2">COVID-19 Status</h1>
-      <div className="container">
-        <div className="columns is-multiline">
-          <div className="column is-half">
+      {/* <h1 className="title is-2">COVID-19 Status</h1> */}
+      <div className="tile is-ancestor">
+        <div className="tile is-vertical is-parent">
+          <div className="tile is-child box">
+            <p className="title">Cumulative Confirmed Cases Trend</p>
             <Bar data={confirmedData} options={
               {
                 title: {
@@ -116,7 +117,8 @@ const Contents = (props) => {
             } />
           </div>
 
-          <div className="column is-half">
+          <div className="tile is-child box">
+            <p className="title">Monthly Quarantined Cases</p>
             <Line data={quarantinedData} options={
               {
                 title: {
@@ -133,13 +135,16 @@ const Contents = (props) => {
               }
             } />
           </div>
+        </div>
 
-          <div className="column is-half">
+        <div className="tile is-parent">
+          <div className="tile is-child box">
+            <p className="title">Cumulative Confirmed, Recovered and Deaths Cases ({monthWords[new Date().getMonth()]})</p>
             <Doughnut data={summarisedData} options={
               {
                 title: {
                   display: true,
-                  text: `Cumulative Confirmed, Recovered and Deaths Cases (${monthWords[new Date().getMonth]})`,
+                  text: `Cumulative Confirmed, Recovered and Deaths Cases (${monthWords[new Date().getMonth()]})`,
                   fontSize: 16
                 }
               },
@@ -153,7 +158,6 @@ const Contents = (props) => {
           </div>
         </div>
       </div>
-      
     </section>
   )
 }

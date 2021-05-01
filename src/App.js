@@ -1,12 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import Header from './components/Header';
 import Contents from './components/Contents';
 import { useState } from 'react';
 
 function App() {
 
-  const [selectedCountry, setSelectedCountry] = useState("AU");
+  const [selectedCountry, setSelectedCountry] = useState({country: "Australia", ISO2: "AU"});
 
   return (
     <div className="App"> 
