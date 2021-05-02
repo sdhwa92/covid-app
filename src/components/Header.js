@@ -13,7 +13,7 @@ const Header = (props) => {
   }, []);
 
   const getCountriesApiCall = () => {
-    API.get('https://api.covid19api.com/countries')
+    API.get('countries')
     .then((res) => {
       const orderedData = res.data.sort((a, b) => a.Country > b.Country ? 1 : (b.Country > a.Country ? -1 : 0));
       setCountryData(orderedData);
@@ -35,7 +35,7 @@ const Header = (props) => {
           <div className="navbar-item">
             <div className="buttons">
               <a className="button is-primary" onClick={() => setIsModal(true)}>
-                <strong>Choose Country</strong>
+                <strong>{props.selectedCountry.country}</strong>
               </a>
             </div>
           </div>

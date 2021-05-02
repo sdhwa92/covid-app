@@ -5,6 +5,7 @@ import LineChart from './LineChart';
 import BarChart from './BarChart';
 
 import API from '../helpers/api';
+import Summary from './Summary';
 
 const Contents = (props) => {
 
@@ -19,7 +20,7 @@ const Contents = (props) => {
   }, [props.selectedCountry]);
 
   const apiCalls = () => {
-    API.get(`https://api.covid19api.com/total/dayone/country/${props.selectedCountry.ISO2}`)
+    API.get(`total/dayone/country/${props.selectedCountry.ISO2}`)
     .then((res) => {
       filterData(res.data);
     });
@@ -111,12 +112,15 @@ const Contents = (props) => {
             <p className="title">Monthly Quarantined Cases</p>
             <LineChart data={quarantinedData} titleText={"Monthly Quarantined Cases"} legendPos={"bottom"} />
           </div>
+          <div className="tile is-child box">
+            <p className="title">Cumulative Confirmed, Recovered and Deaths Cases ({monthWords[new Date().getMonth()]})</p>
+              <DoughnutChart data={summarisedData} titleText={`Cumulative Confirmed, Recovered and Deaths Cases (${monthWords[new Date().getMonth()]})`} legendPos={"bottom"} />
+          </div>
         </div>
 
         <div className="tile is-parent">
           <div className="tile is-child box">
-            <p className="title">Cumulative Confirmed, Recovered and Deaths Cases ({monthWords[new Date().getMonth()]})</p>
-              <DoughnutChart data={summarisedData} titleText={`Cumulative Confirmed, Recovered and Deaths Cases (${monthWords[new Date().getMonth()]})`} legendPos={"bottom"} />
+            <Summary selectedCountry={props.selectedCountry} />
           </div>
         </div>
       </div>
