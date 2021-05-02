@@ -98,13 +98,13 @@ const Summary = (props) => {
           </tfoot>
           <tbody>
             {topTotalData.map((data) => (
-              <tr className={data.Country === props.selectedCountry.country ? 'is-selected' : ''} key={data.ID}>
-                <td><strong>{data.rank}</strong></td>
+              <tr className={data?.Country === props.selectedCountry.country ? 'is-selected' : ''} key={data?.ID}>
+                <td><strong>{data?.rank}</strong></td>
                 <td></td>
-                <td>{data.Country}</td>
-                <td>{data.TotalConfirmed}</td>
-                <td>{data.TotalDeaths}</td>
-                <td>{data.TotalRecovered}</td>
+                <td>{data?.Country}</td>
+                <td>{data?.TotalConfirmed}</td>
+                <td>{data?.TotalDeaths}</td>
+                <td>{data?.TotalRecovered}</td>
               </tr>
             ))}
           </tbody>
