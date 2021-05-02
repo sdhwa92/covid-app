@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import '../styles/Header.scss';
 import Modal from './Modal';
 
+import API from '../helpers/api';
+
 const Header = (props) => {
   const [countryData, setCountryData] = useState([]);
   const [isModal, setIsModal] = useState(false);
@@ -11,15 +13,11 @@ const Header = (props) => {
   }, []);
 
   const getCountriesApiCall = () => {
-    fetch("https://api.covid19api.com/countries")
+    API.get('https://api.covid19api.com/countries')
     .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      // console.log(data);
-      const orderedData = data.sort((a, b) => a.Country > b.Country ? 1 : (b.Country > a.Country ? -1 : 0));
+      const orderedData = res.data.sort((a, b) => a.Country > b.Country ? 1 : (b.Country > a.Country ? -1 : 0));
       setCountryData(orderedData);
-    })
+    });
   }; 
 
   // @TODO: Context를 사용하여 flag 불러오기

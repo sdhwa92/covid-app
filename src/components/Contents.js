@@ -4,6 +4,8 @@ import DoughnutChart from './DoughnutChart';
 import LineChart from './LineChart';
 import BarChart from './BarChart';
 
+import API from '../helpers/api';
+
 const Contents = (props) => {
 
   const monthWords = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -17,12 +19,9 @@ const Contents = (props) => {
   }, [props.selectedCountry]);
 
   const apiCalls = () => {
-    fetch(`https://api.covid19api.com/total/dayone/country/${props.selectedCountry.ISO2}`)
+    API.get(`https://api.covid19api.com/total/dayone/country/${props.selectedCountry.ISO2}`)
     .then((res) => {
-      return res.json();
-    })
-    .then((data) => {
-      filterData(data);
+      filterData(res.data);
     });
   };
 
