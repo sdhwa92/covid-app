@@ -70,7 +70,9 @@ const Summary = (props) => {
   }
 
   return (
-    <div>
+    <div style={{
+      overflowX: "auto"
+    }}>
       <p className="title">Covid Situation by Country on {updatedDate}</p>
       <div>
         <table className="table">
