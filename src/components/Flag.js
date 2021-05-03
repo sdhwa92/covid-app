@@ -323,7 +323,9 @@ const Flag = (props) => {
   }, [props.countryCode]);
 
   return (
-    <div>
+    <div style={{
+      display: 'flex'
+    }}>
       <img
         src={`https://flagcdn.com/h20/${countryCode}.png`}
         height="20"
