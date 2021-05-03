@@ -14,15 +14,18 @@ const Contents = (props) => {
   const [confirmedData, setConfirmedData] = useState({});
   const [quarantinedData, setQuarantinedData] = useState({});
   const [summarisedData, setSummarisedData] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     apiCalls();
   }, [props.selectedCountry]);
 
   const apiCalls = () => {
+    setIsLoading(true);
     API.get(`total/dayone/country/${props.selectedCountry.ISO2}`)
     .then((res) => {
       filterData(res.data);
+      setIsLoading(false);
     });
   };
 
@@ -104,17 +107,18 @@ const Contents = (props) => {
       <div className="tile is-ancestor">
         <div className="tile is-vertical is-parent">
           <div className="tile is-child box">
-            <p className="title">Cumulative Confirmed Cases Trend</p>
-            <BarChart data={confirmedData} titleText={"Cumulative Confirmed Cases Trend"} legendPos={"bottom"} />
+            <BarChart data={confirmedData} titleText={"Cumulative Confirmed Cases Trend"} legendPos={"bottom"} isLoading={isLoading} />
           </div>
 
           <div className="tile is-child box">
-            <p className="title">Monthly Quarantined Cases</p>
-            <LineChart data={quarantinedData} titleText={"Monthly Quarantined Cases"} legendPos={"bottom"} />
+            <LineChart data={quarantinedData} titleText={"Monthly Quarantined Cases"} legendPos={"bottom"} isLoading={isLoading} />
           </div>
           <div className="tile is-child box">
-            <p className="title">Cumulative Confirmed, Recovered and Deaths Cases ({monthWords[new Date().getMonth()]})</p>
-              <DoughnutChart data={summarisedData} titleText={`Cumulative Confirmed, Recovered and Deaths Cases (${monthWords[new Date().getMonth()]})`} legendPos={"bottom"} />
+            <DoughnutChart 
+              data={summarisedData} 
+              titleText={`Cumulative Confirmed, Recovered and Deaths Cases (${monthWords[new Date().getMonth()]})`} 
+              legendPos={"bottom"} 
+              isLoading={isLoading} />
           </div>
         </div>
 

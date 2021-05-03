@@ -1,30 +1,35 @@
 import React, { useEffect, useState } from 'react'
 
 import API from '../helpers/api';
+import Flag from './Flag';
+import Loading from './Loading';
 
 const Summary = (props) => {
 
   const [summaryData, setSummaryData] = useState();
   const [updatedDate, setUpdatedDate] = useState();
   const [topTotalData, setTopTotalData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   
   useEffect(() => {
     apiCalls();
   }, [props.selectedCountry]);
 
   const apiCalls = () => {
+    setIsLoading(true);
     API.get('summary')
     .then((res) => {
       // console.log(res);
       setSummaryData(res.data);
       setTopTotalData(filterData(res.data.Countries));
 
-
       const dataDate = new Date(res.data.Date);
       const date = dataDate.getDate();
       const month = dataDate.getMonth() + 1;
       const year = dataDate.getFullYear();
       setUpdatedDate(`${date}/${month}/${year}`);
+
+      setIsLoading(false);
     });
   };
 
@@ -57,16 +62,17 @@ const Summary = (props) => {
     let top20Countries = processedData.slice(0, 20);
     
     if (!top20Countries.find(item => item.Country === props.selectedCountry.country)) {
-      // console.log("Not in top 20");
-
       const selectedCountryData = processedData.find(item => item.Country === props.selectedCountry.country);
-      top20Countries = [
-        ...top20Countries,
-        selectedCountryData
-      ];
+      top20Countries = selectedCountryData ? [...top20Countries,selectedCountryData] : top20Countries;
     }
 
     return top20Countries;
+  }
+
+  if (isLoading) {
+    return (
+      <Loading />
+    )
   }
 
   return (
@@ -100,7 +106,7 @@ const Summary = (props) => {
             {topTotalData.map((data) => (
               <tr className={data?.Country === props.selectedCountry.country ? 'is-selected' : ''} key={data?.ID}>
                 <td><strong>{data?.rank}</strong></td>
-                <td></td>
+                <td><Flag countryCode={data?.CountryCode}></Flag></td>
                 <td>{data?.Country}</td>
                 <td>{data?.TotalConfirmed}</td>
                 <td>{data?.TotalDeaths}</td>

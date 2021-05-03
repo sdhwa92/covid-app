@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import '../styles/Header.scss';
 import Modal from './Modal';
-
 import API from '../helpers/api';
+import '../styles/Header.scss';
+import Flag from './Flag';
 
 const Header = (props) => {
   const [countryData, setCountryData] = useState([]);
@@ -20,21 +20,22 @@ const Header = (props) => {
     });
   }; 
 
-  // @TODO: Context를 사용하여 flag 불러오기
-
   return (
     <header className="header">
-      <nav className="navbar is-light" role="navigation" aria-label="main navigation">
+      <nav className="navbar is-primary" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <h1 className="navbar-item">
-            COVID-19 STATUS
+            <strong style={{color: '#fff'}}>COVID-19 STATUS</strong>
           </h1>
         </div>
 
         <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
-              <a className="button is-primary" onClick={() => setIsModal(true)}>
+              <a className="button is-white" onClick={() => setIsModal(true)}>
+                <span class="icon">
+                  <Flag countryCode={props.selectedCountry.ISO2} />
+                </span>
                 <strong>{props.selectedCountry.country}</strong>
               </a>
             </div>
