@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Modal from './Modal';
+import Modal from '../containers/Modal';
+import Flag from '../containers/Flag';
 import API from '../helpers/api';
 import '../styles/Header.scss';
-import Flag from './Flag';
 
 const Header = (props) => {
   const [countryData, setCountryData] = useState([]);
@@ -34,9 +34,9 @@ const Header = (props) => {
             <div className="buttons">
               <a className="button is-white" onClick={() => setIsModal(true)}>
                 <span class="icon">
-                  <Flag countryCode={props.selectedCountry.ISO2} />
+                  <Flag />
                 </span>
-                <strong>{props.selectedCountry.country}</strong>
+                <strong>{props.country}</strong>
               </a>
             </div>
           </div>
@@ -46,9 +46,7 @@ const Header = (props) => {
       <Modal 
         isModal={isModal} 
         onToggleModal={(isModal) => {setIsModal(isModal)}}
-        countryOptions={countryData} 
-        selectedCountry={props.selectedCountry} 
-        onSelectCountry={props.onSelectCountry} />
+        countryOptions={countryData} />
     </header>
   )
 }

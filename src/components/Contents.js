@@ -3,9 +3,9 @@ import { useState, useEffect } from 'react';
 import DoughnutChart from './DoughnutChart';
 import LineChart from './LineChart';
 import BarChart from './BarChart';
+import Summary from '../containers/Summary';
 
 import API from '../helpers/api';
-import Summary from './Summary';
 
 const Contents = (props) => {
 
@@ -18,11 +18,11 @@ const Contents = (props) => {
 
   useEffect(() => {
     apiCalls();
-  }, [props.selectedCountry]);
+  }, [props.countryCode]);
 
   const apiCalls = () => {
     setIsLoading(true);
-    API.get(`total/dayone/country/${props.selectedCountry.ISO2}`)
+    API.get(`total/dayone/country/${props.countryCode}`)
     .then((res) => {
       filterData(res.data);
       setIsLoading(false);
@@ -124,7 +124,7 @@ const Contents = (props) => {
 
         <div className="tile is-parent">
           <div className="tile is-child box">
-            <Summary selectedCountry={props.selectedCountry} />
+            <Summary />
           </div>
         </div>
       </div>

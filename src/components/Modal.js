@@ -3,10 +3,9 @@ import '../styles/Modal.scss';
 
 const Modal = (props) => {
 
-  const [selectedCountry, setSelectedCountry] = useState(props.selectedCountry);
+  const [selectedCountry, setSelectedCountry] = useState({country: props.country, countryCode: props.countryCode});
 
   const submitCountry = () => {
-    // console.log(selectedCountry);
     props.onSelectCountry(selectedCountry);
     props.onToggleModal(false);
   }
@@ -22,9 +21,9 @@ const Modal = (props) => {
         <section className="modal-card-body">
           <div className="panel">
             {props.countryOptions.map(item => (
-              <a className={`panel-block ${item.ISO2 === selectedCountry.ISO2 ? 'is-active' : ''}`} 
+              <a className={`panel-block ${item.ISO2 === selectedCountry.countryCode ? 'is-active' : ''}`} 
                   key={item.ISO2} 
-                  onClick={() => {setSelectedCountry({ISO2: item.ISO2, country: item.Country})}}>
+                  onClick={() => {setSelectedCountry({countryCode: item.ISO2, country: item.Country})}}>
                     {item.Country}
               </a>
             ))}

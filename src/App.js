@@ -1,17 +1,14 @@
 import './App.scss';
-import Header from './components/Header';
-import Contents from './components/Contents';
-import { useState } from 'react';
+import Header from './containers/Header';
+import Contents from './containers/Contents';
 import Footer from './components/Footer';
 
 function App() {
 
-  const [selectedCountry, setSelectedCountry] = useState({country: "Australia", ISO2: "AU"});
-
   return (
     <div className="App"> 
-      <Header selectedCountry={selectedCountry} onSelectCountry={(select) => {setSelectedCountry(select)}} />
-      <Contents selectedCountry={selectedCountry} /> 
+      <Header />
+      <Contents /> 
       <Footer />
     </div>
   );

@@ -6,21 +6,18 @@ import Loading from './Loading';
 
 const Summary = (props) => {
 
-  const [summaryData, setSummaryData] = useState();
   const [updatedDate, setUpdatedDate] = useState();
   const [topTotalData, setTopTotalData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   
   useEffect(() => {
     apiCalls();
-  }, [props.selectedCountry]);
+  }, [props.countryCode]);
 
   const apiCalls = () => {
     setIsLoading(true);
     API.get('summary')
     .then((res) => {
-      // console.log(res);
-      setSummaryData(res.data);
       setTopTotalData(filterData(res.data.Countries));
 
       const dataDate = new Date(res.data.Date);
@@ -61,8 +58,8 @@ const Summary = (props) => {
 
     let top20Countries = processedData.slice(0, 20);
     
-    if (!top20Countries.find(item => item.Country === props.selectedCountry.country)) {
-      const selectedCountryData = processedData.find(item => item.Country === props.selectedCountry.country);
+    if (!top20Countries.find(item => item.Country === props.country)) {
+      const selectedCountryData = processedData.find(item => item.Country === props.country);
       top20Countries = selectedCountryData ? [...top20Countries,selectedCountryData] : top20Countries;
     }
 
@@ -104,7 +101,7 @@ const Summary = (props) => {
           </tfoot>
           <tbody>
             {topTotalData.map((data) => (
-              <tr className={data?.Country === props.selectedCountry.country ? 'is-selected' : ''} key={data?.ID}>
+              <tr className={data?.Country === props.country ? 'is-selected' : ''} key={data?.ID}>
                 <td><strong>{data?.rank}</strong></td>
                 <td><Flag countryCode={data?.CountryCode}></Flag></td>
                 <td>{data?.Country}</td>
